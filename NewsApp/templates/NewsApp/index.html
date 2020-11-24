@@ -1,0 +1,30 @@
+{% extends 'NewsApp/authenticated.html' %}
+
+{% block content %}
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+    <div class="d-flex flex-row justify-content-between align-items-center border-bottom border-gray pb-2 mb-0">
+        <h6 class="">Deaths in UK 'a fifth higher than normal levels'</h6>
+
+        <div class="d-flex flex-row">
+            <div class="d-flex flex-column">
+                <small class="text-right">Today</small>
+                <small class="text-right">
+                    Author Name
+                </small>
+            </div>
+
+            <div class="author-img pl-1 pt-1">
+                <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+            </div>
+        </div>
+    </div>
+    <div class="media pt-3 border-bottom border-gray">
+      <p class="media-body pb-3 mb-0 small">
+        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+      </p>
+    </div>
+    <small class="d-block text-left mt-3">
+      <a href="#">0 Comments</a>
+    </small>
+  </div>
+{% endblock %}

@@ -19,6 +19,7 @@ class NewsArticle(models.Model):
     author = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     pub_date = models.DateField(auto_now_add=True)
     story = models.TextField()
+    likes = models.ManyToManyField(AppUser, blank=True, related_name="likes_users")
 
     def __str__(self):
         return self.headline

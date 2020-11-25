@@ -25,8 +25,16 @@
       </p>
     </div>
     <div class="footer d-flex flex-row justify-content-between small mt-3">
-        <button type="button" class="btn btn-primary btn-sm">Like</button>
-        <button type="button" class="btn btn-light btn-sm">0 Comments</button>
+        <div class="like-container">
+            <button type="button" class="btn btn-primary btn-sm mr-2">
+                Like
+                <span class="badge bg-info align-text-bottom">{{ article.like_count }}</span>
+            </button>
+        </div>
+        <button type="button" class="btn btn-light btn-sm">
+            Comments
+            <span class="badge badge-secondary">0</span>
+        </button>
     </div>
 </div>
 {% endfor %}

@@ -122,23 +122,18 @@ $('.auth-form').on('click', '.signin .signInButton', function() {
 });
 
 function onSubmitSignUp() {
-    const form = $('#signup');
-    const username = form.find('#username');
-    const password = form.find('#password');
-    const email = form.find('#email');
-
-    const firstName = form.find('#firstName');
-    const lastName = form.find('#lastName');
 }
 
-$('.auth-form').on('click', '.signUp .signUpButton', function() {
-    const form = $('.signin');
+$('.auth-form').on('click', '.signup .signUpButton', function() {
+    const form = $('.signup');
     const username = form.find('#username');
     const password = form.find('#password');
     const email = form.find('#email');
 
     const firstName = form.find('#firstName');
     const lastName = form.find('#lastName');
+
+    console.log(firstName.val());
 
     $.ajax({
         method: "POST",

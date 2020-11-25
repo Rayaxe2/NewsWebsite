@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from NewsApp.models import AppUser, NewsArticle
 
 def authenticated(view):
@@ -11,7 +11,8 @@ def authenticated(view):
             try:
                 user = AppUser.objects.get(username=username)
             except AppUser.DoesNotExist:
-                raise Http404('User does not exist within system')
+                # Log user out if not existing within system.
+                return logout(request)
             return view(request, user)
         else:
             return redirect('auth')
@@ -25,7 +26,7 @@ def notAuthenticated(view):
             try:
                 user = AppUser.objects.get(username=username)
             except AppUser.DoesNotExist:
-                raise Http404('User does not exist within system')
+                return redirect('index')
             return redirect('index')
         else:
             return view(request)

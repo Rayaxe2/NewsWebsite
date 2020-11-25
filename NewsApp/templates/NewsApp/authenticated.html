@@ -24,15 +24,16 @@
 
 <div class="nav-scroller bg-white shadow-sm">
   <nav class="nav nav-underline">
-    <a class="nav-link active" href="#">UK News</a>
-    <a class="nav-link" href="#">
-      COVID-19 News
-      <span class="badge badge-pill bg-light align-text-bottom">27</span>
-    </a>
-    <a class="nav-link" href="#">Fake News</a>
-    <a class="nav-link" href="#">Suggestions</a>
-    <a class="nav-link" href="#">Link</a>
-    <a class="nav-link" href="#">Link</a>
+    {% for category in categories %}
+        {% if category.article_count > 0 %}
+            <a class="nav-link" href="#">
+                {{ category.title }}
+                <span class="badge badge-pill bg-light align-text-bottom">{{ category.article_count }}</span>
+            </a>
+        {% else %}
+        <a class="nav-link" href="#">{{ category.title }}</a>
+        {% endif %}
+    {% endfor %}
   </nav>
 </div>
 {% endblock %}

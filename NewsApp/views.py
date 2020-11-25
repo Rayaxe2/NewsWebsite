@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login
-from NewsApp.models import AppUser
+from NewsApp.models import AppUser, NewsArticle
 
 def authenticated(view):
     # Decorator that protects view from unregistered users.
@@ -68,6 +68,8 @@ def authSignIn(request):
 
 @authenticated
 def news(request, user):
+    articles = NewsArticle.objects.all()
     return render(request, 'NewsApp/index.html', {
-        'title': 'News'
+        'title': 'News',
+        'articles': articles
     })

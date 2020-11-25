@@ -1,15 +1,16 @@
 {% extends 'NewsApp/authenticated.html' %}
 
 {% block content %}
+{% for article in articles %}
 <div class="my-3 p-3 bg-white rounded shadow-sm">
     <div class="d-flex flex-row justify-content-between align-items-center border-bottom border-gray pb-2 mb-0">
-        <h6 class="">Deaths in UK 'a fifth higher than normal levels'</h6>
+        <h6 class="">{{ article.headline }}</h6>
 
         <div class="d-flex flex-row">
             <div class="d-flex flex-column">
-                <small class="text-right">Today</small>
+                <small class="text-right">{{ article.pub_date }}</small>
                 <small class="text-right">
-                    Author Name
+                    {{ article.author.fullName }}
                 </small>
             </div>
 
@@ -20,11 +21,13 @@
     </div>
     <div class="media pt-3 border-bottom border-gray">
       <p class="media-body pb-3 mb-0 small">
-        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+        {{ article.story }}
       </p>
     </div>
-    <small class="d-block text-left mt-3">
-      <a href="#">0 Comments</a>
-    </small>
-  </div>
+    <div class="footer d-flex flex-row justify-content-between small mt-3">
+        <button type="button" class="btn btn-primary btn-sm">Like</button>
+        <button type="button" class="btn btn-light btn-sm">0 Comments</button>
+    </div>
+</div>
+{% endfor %}
 {% endblock %}

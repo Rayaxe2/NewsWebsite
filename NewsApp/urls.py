@@ -5,7 +5,7 @@ from NewsApp import views
 
 urlpatterns = [
     path('', views.news, name='index'),
-    path('auth/', views.authForm),
+    path('auth/', views.authForm, name='auth'),
     path('auth/signin', views.authSignIn),
     path('news/', views.news),
 ]

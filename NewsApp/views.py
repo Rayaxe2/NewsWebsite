@@ -14,7 +14,7 @@ def authenticated(view):
                 raise Http404('User does not exist within system')
             return view(request, user)
         else:
-            return render(request, 'NewsApp/authentication.html')
+            return redirect('auth')
     return auth_check
 
 def notAuthenticated(view):

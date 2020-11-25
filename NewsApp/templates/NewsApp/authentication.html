@@ -1,0 +1,184 @@
+{% extends 'NewsApp/base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" />
+
+<style>
+    .auth-container {
+        position: absolute;
+        margin-top: -56px;
+        height: 100vh;
+        width: 100%;
+    }
+
+    .auth-container .auth-form {
+        width: 350px;
+        box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+    }
+</style>
+
+<div class="auth-container">
+    <div class="d-flex flex-column justify-content-center align-items-center h-100">
+        <h1 id="auth-title" class="mb-3">Sign In</h1>
+        <div class="auth-form bg-white py-3 px-3">
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
+<script>
+$('#dateOfBirth').datepicker();
+
+$(document).ready(() => {
+    switchToSignIn();
+});
+
+$('#auth-form').on('focus', '#dateOfBirth', function () {
+    console.log(123);
+});
+
+function switchToSignup() {
+    const container = $('.auth-form');
+    container.empty();
+    container.append(`            
+        <form class="signup" onsubmit="onSubmitSignUp(); return false">
+            {% csrf_token %}
+            <div id="auth-error" class="error">
+
+            </div>
+            <div class="form-row mt-3 mb-3">
+                <div class="col">
+                  <input id="firstName" name="firstName" type="text" class="form-control" placeholder="First name">
+                </div>
+                <div class="col">
+                  <input id="lastName" name="lastName" type="text" class="form-control" placeholder="Last name">
+                </div>
+            </div>
+            <input id="username" name="username" type="text" class="form-control mb-3" placeholder="Username">
+            <input id="email" name="email" type="email" class="form-control mb-3" placeholder="Email Address">
+            <input id="password" name="password" type="password" class="form-control mb-3" placeholder="Password">
+            <input id="dateOfBirth" name="dateOfBirth" type="text" class="form-control mb-2" placeholder="Date of Birth">
+            <div class="mb-2 text-center">
+                <a href="#" onclick="switchToSignIn()">Already have an account? Sign in!</a>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mb-3 signUpButton">Submit</button>
+        </form>`
+    );
+
+    const containerTitle = $('#auth-title');
+    containerTitle.html('Sign Up');
+}
+
+function switchToSignIn() {
+    const container = $('.auth-form');
+    container.empty();
+    container.append(`
+        <form class="signin" onsubmit="onSubmitSignIn(); return false">
+            {% csrf_token %}
+            <div id="auth-error" class="error"></div>
+            <input id="username" name="username" type="text" class="form-control mb-3" placeholder="Username" required>
+            <input id="password" name="password" type="password" class="form-control mb-2" placeholder="Password" required>
+            <div class="mb-2 text-center">
+                <a href="#" onclick="switchToSignup()">Don't have an account? Sign Up!</a>
+            </div>
+            <button type="button" class="btn btn-primary btn-block mb-3 signInButton">Sign In</button>
+        </form>
+    `);
+
+    const containerTitle = $('#auth-title');
+    containerTitle.html('Sign In');
+}
+
+$('.auth-form').on('click', '.signin .signInButton', function() {
+    const form = $('.signin');
+    const username = form.find('#username');
+    const password = form.find('#password');
+
+    $.ajax({
+        method: "POST",
+        url: "signin",
+        headers: {
+            'X-CSRFToken': `{{ csrf_token }}`
+        },
+        data: {
+            "username": username.val(),
+            "password": password.val()
+        },
+        success: (resp) => {
+            console.log(resp);
+            if(!resp.success) {
+                if(resp.message) {
+                    displayError(resp.message);
+                } else {
+                    displayError("An unspecified error has occured!");
+                }
+            }
+        }
+    });
+});
+
+function onSubmitSignUp() {
+    const form = $('#signup');
+    const username = form.find('#username');
+    const password = form.find('#password');
+    const email = form.find('#email');
+
+    const firstName = form.find('#firstName');
+    const lastName = form.find('#lastName');
+}
+
+$('.auth-form').on('click', '.signUp .signUpButton', function() {
+    const form = $('.signin');
+    const username = form.find('#username');
+    const password = form.find('#password');
+    const email = form.find('#email');
+
+    const firstName = form.find('#firstName');
+    const lastName = form.find('#lastName');
+
+    $.ajax({
+        method: "POST",
+        url: "signup",
+        headers: {
+            'X-CSRFToken': `{{ csrf_token }}`
+        },
+        data: {
+            "username": username.val(),
+            "password": password.val(),
+            "email": email.val(),
+            "firstName": firstName.val(),
+            "lastName": lastName.val()
+        },
+        success: (resp) => {
+            if(!resp.success) {
+                if(resp.message) {
+                    displayError(resp.message);
+                } else {
+                    displayError("An unspecified error has occured!");
+                }
+            }
+        }
+    });
+});
+
+function displayError(message) {
+    const errorContainer = $('#auth-error');
+    if(!errorContainer) {
+        return;
+    }
+
+    errorContainer.append(`
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            ${message}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    `);
+}
+</script>
+{% endblock %}

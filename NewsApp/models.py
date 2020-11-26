@@ -6,6 +6,7 @@ class AppUser(User):
     # An AppUser inherits from User but adds Date of Birth to a similar naming convention.
 
     date_of_birth = models.DateField()
+    profile_picture = models.ImageField(null=True, blank=True, upload_to='profile_pictures')
 
     @property
     def fullName(self):

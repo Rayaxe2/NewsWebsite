@@ -82,3 +82,7 @@ def news(request, user):
         'categories': categories,
         'articles': articles
     })
+
+    def signUp(request):
+        
+        return

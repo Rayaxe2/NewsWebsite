@@ -9,7 +9,7 @@
 ## To-Do List
 ### Basic
 - [X] Sign in
-- [ ] Sign Up
+- [X] Sign Up
 - [X] News articles linked to categories
 - [ ] Users can select news categories
 - [ ] Users are only shown selected categories.

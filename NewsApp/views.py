@@ -13,7 +13,7 @@ def authenticated(view):
                 user = AppUser.objects.get(username=username)
             except AppUser.DoesNotExist:
                 # Log user out if not existing within system.
-                return logout(request)
+                return redirect('signout')
             return view(request, user)
         else:
             return redirect('auth')
@@ -67,6 +67,11 @@ def authSignIn(request):
             'success': False,
             'message': "You have provided an incorrect combination."
         })
+
+def authSignOut(request):
+    # Let user logout regardless if they were logged in or not.
+    logout(request)
+    return redirect('auth')
 
 @authenticated
 def news(request, user):

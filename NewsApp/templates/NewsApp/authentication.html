@@ -61,7 +61,7 @@ function switchToSignup() {
             <input id="username" name="username" type="text" class="form-control mb-3" placeholder="Username">
             <input id="email" name="email" type="email" class="form-control mb-3" placeholder="Email Address">
             <input id="password" name="password" type="password" class="form-control mb-3" placeholder="Password">
-            <input id="dateOfBirth" name="dateOfBirth" type="text" class="form-control mb-2" placeholder="Date of Birth">
+            <input id="dateOfBirth" name="dateOfBirth" type="date" max="2020-01-01" class="form-control mb-2" placeholder="Date of Birth">
             <div class="mb-2 text-center">
                 <a href="#" onclick="switchToSignIn()">Already have an account? Sign in!</a>
             </div>
@@ -112,17 +112,18 @@ $('.auth-form').on('click', '.signin .signInButton', function() {
             console.log(resp);
             if(!resp.success) {
                 if(resp.message) {
-                    displayError(resp.message);
+                    displayAlert("warning", resp.message);
                 } else {
-                    displayError("An unspecified error has occured!");
+                    displayAlert("danger", "An unspecified error has occured!");
                 }
+            } else {
+                displayAlert("success", resp.message);
             }
         }
     });
 });
 
-function onSubmitSignUp() {
-}
+function onSubmitSignUp() { }
 
 $('.auth-form').on('click', '.signup .signUpButton', function() {
     const form = $('.signup');
@@ -132,8 +133,7 @@ $('.auth-form').on('click', '.signup .signUpButton', function() {
 
     const firstName = form.find('#firstName');
     const lastName = form.find('#lastName');
-
-    console.log(firstName.val());
+    const dateOfBirth = form.find('#dateOfBirth');
 
     $.ajax({
         method: "POST",
@@ -146,28 +146,31 @@ $('.auth-form').on('click', '.signup .signUpButton', function() {
             "password": password.val(),
             "email": email.val(),
             "firstName": firstName.val(),
-            "lastName": lastName.val()
+            "lastName": lastName.val(),
+            "dateOfBirth": dateOfBirth.val()
         },
         success: (resp) => {
             if(!resp.success) {
                 if(resp.message) {
-                    displayError(resp.message);
+                    displayAlert("warning", resp.message);
                 } else {
-                    displayError("An unspecified error has occured!");
+                    displayAlert("danger", "An unspecified error has occured!");
                 }
+            } else {
+                displayAlert("success", resp.message);
             }
         }
     });
 });
 
-function displayError(message) {
+function displayAlert(type, message) {
     const errorContainer = $('#auth-error');
     if(!errorContainer) {
         return;
     }
 
     errorContainer.append(`
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
             ${message}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>

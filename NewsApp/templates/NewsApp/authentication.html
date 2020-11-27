@@ -118,6 +118,9 @@ $('.auth-form').on('click', '.signin .signInButton', function() {
                 }
             } else {
                 displayAlert("success", resp.message);
+                setTimeout(() => {
+                    window.location.replace("/");
+                }, 1500);
             }
         }
     });
@@ -158,6 +161,9 @@ $('.auth-form').on('click', '.signup .signUpButton', function() {
                 }
             } else {
                 displayAlert("success", resp.message);
+                setTimeout(() => {
+                    window.location.replace("/");
+                }, 1500);
             }
         }
     });
